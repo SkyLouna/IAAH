@@ -1,5 +1,7 @@
 <?php
 
+    require_once 'IAAHToken.php';
+
     class IAAHFileUtils {
 
         protected static $FILEPATH = 'data/data.json';
@@ -22,20 +24,28 @@
             return $tokens;
         }
 
+        static function getToken($key){
+            $tokens = IAAHFileUtils::readTokens();
+
+            foreach($tokens as $token){
+                if($token->key == $key){
+                    return $token;
+                }
+            }
+
+            return null;
+        }
+
         static function saveToken($token){
             $actualTokens = IAAHFileUtils::readTokens();
 
             $actualTokens[] = $token;
-            var_dump($actualTokens);
 
             $fileData = array();
 
             foreach($actualTokens as $tkn){
                 $fileData[] = json_encode($tkn);
             }
-
-            var_dump($fileData);
-            var_dump(json_encode(array_values($fileData)));
 
             $file = fopen(IAAHFileUtils::$FILEPATH, "w") or die('IAAH: Unable to write to file');
             fwrite($file, json_encode($fileData));

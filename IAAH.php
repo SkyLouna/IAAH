@@ -34,7 +34,7 @@
          */
         static function getScenario($name){
             
-            foreach(IAAH::$enabledscenarios as $scenario){
+            foreach(IAAH::getEnabledScenarios() as $scenario){
                 if($scenario->getName() == $name){
                     return $scenario;
                 }
@@ -43,8 +43,24 @@
             return null;
         }
 
-        static function checkAnswerKey($userKey, $userResponse) : boolean {
-            
+        static function checkUser($post) : bool {
+            if(!isset($post['iaah_name']) || $post['iaah_name'] == ''){
+                return false;
+            }
+
+            if(!isset($post['iaah_data']) || $post['iaah_data'] == ''){
+                return false;
+            }
+
+            if(!isset($post['iaah_result']) || $post['iaah_result'] == ''){
+                return false;
+            }
+
+            $scenario = IAAH::getScenario($post['iaah_name']);
+            $data = unserialize($_POST['iaah_data']);
+            $result = $_POST['iaah_result'];
+
+            return $scenario->checkReceivedData($result, $data);
         }
 
         

@@ -13,19 +13,21 @@
         }
 
         public function getIAAHForm($token){
+            $formData = $this->getFormData($token);
+
             $form = '<div id="iaah">';
             
             $form .= '<input type="hidden" name="iaah_name" value="'.$this->name.'" />';
 
-            $form .= '<input type="hidden" name="iaah_data" value="'.htmlentities(serialize($this->getFormData($token))).'" />';
+            $form .= '<input type="hidden" name="iaah_data" value="'.htmlentities(serialize($formData)).'" />';
 
-            $form .= $this->getFormContent($token);
+            $form .= $this->getFormContent($token, $formData);
 
             $form .= '</div>';
             return $form;
         }
 
-        public function getFormContent($token){
+        public function getFormContent($token, $formData){
             return '';
         }
 
