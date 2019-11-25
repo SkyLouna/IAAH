@@ -1,33 +1,33 @@
 <?php
 
-    class IAAHToken {
-
+    class IAAHToken implements JsonSerializable
+    {
         protected $key;
         protected $result;
-
-        /**
-         * IAAHToken constructor
-         */
-        function __construct($key, $result){
-            $this->key = $key;
-            $this->result = $result;
+        
+        public function __construct(array $data) 
+        {
+            $this->key = $data['key'];
+            $this->result = $data['result'];
+        }
+        
+        public function getKey() 
+        {
+            return $this->key;
+        }
+        
+        public function getResult() 
+        {
+            return $this->result;
         }
 
-        /**
-         * Get the value of key
-         */ 
-        public function getKey()
+        public function jsonSerialize()
         {
-                return $this->key;
-        }
-
-        /**
-         * Get the value of result
-         */ 
-        public function getResult()
-        {
-                return $this->result;
+            return 
+            [
+                'key'   => $this->getKey(),
+                'result' => $this->getResult()
+            ];
         }
     }
-
 ?>

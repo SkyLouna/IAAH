@@ -9,8 +9,6 @@
 
             $tokensArray = json_decode($fileData);
 
-            var_dump($tokensArray);
-
             if($tokensArray == null){
                 return array();
             }
@@ -28,8 +26,6 @@
             $actualTokens = IAAHFileUtils::readTokens();
 
             $actualTokens[] = $token;
-
-            var_dump($token);
             var_dump($actualTokens);
 
             $fileData = array();
@@ -37,6 +33,9 @@
             foreach($actualTokens as $tkn){
                 $fileData[] = json_encode($tkn);
             }
+
+            var_dump($fileData);
+            var_dump(json_encode(array_values($fileData)));
 
             $file = fopen(IAAHFileUtils::$FILEPATH, "w") or die('IAAH: Unable to write to file');
             fwrite($file, json_encode($fileData));
