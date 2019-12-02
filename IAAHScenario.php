@@ -15,7 +15,9 @@
         public function getIAAHForm($token){
             $formData = $this->getFormData($token);
 
-            $form = '<div id="iaah">';
+            $form = '<div id="iaah" style="border: black 1px solid; padding: 20px 0px 0px 20px;">';
+
+            $form .= '<legend style="border-bottom: black 1px solid; margin-bottom: 10px; width: 15%; font-size: 40px; text-align: center;">IAAH</legend>';
             
             $form .= '<input type="hidden" name="iaah_name" value="'.$this->name.'" />';
 

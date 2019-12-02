@@ -1,6 +1,8 @@
 <?php
 
     require_once 'scenarios/DefaultScenario.php';
+    require_once 'scenarios/FlappyBirdScenario.php';
+
 
     class IAAH {
 
@@ -14,7 +16,8 @@
             }
 
             IAAH::$enabledscenarios = array(
-                new DefaultScenario()
+                new DefaultScenario(),
+                new FlappyBirdScenario()
             );
             
             return IAAH::$enabledscenarios;
@@ -44,14 +47,18 @@
         }
 
         static function checkUser($post) : bool {
+
+            //If there is no scenario name
             if(!isset($post['iaah_name']) || $post['iaah_name'] == ''){
                 return false;
             }
 
+            //If there is no scenario data
             if(!isset($post['iaah_data']) || $post['iaah_data'] == ''){
                 return false;
             }
 
+            //If there is no scenario result
             if(!isset($post['iaah_result']) || $post['iaah_result'] == ''){
                 return false;
             }
