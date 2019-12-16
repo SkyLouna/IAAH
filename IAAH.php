@@ -3,6 +3,11 @@
     require_once 'scenarios/DefaultScenario.php';
     require_once 'scenarios/FlappyBirdScenario.php';
 
+    //IF no session, start it
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
 
     class IAAH {
 
@@ -17,7 +22,7 @@
 
             IAAH::$enabledscenarios = array(
                 new DefaultScenario(),
-                new FlappyBirdScenario()
+                //new FlappyBirdScenario()
             );
             
             return IAAH::$enabledscenarios;
@@ -47,6 +52,14 @@
         }
 
         static function checkUser($post) : bool {
+
+            if(isset($_SESSION['iaah_accesstoken']) && $_SESSION['iaah_accesstoken'] != ''){
+                $accessToken = IAAHFileUtils::getToken($_SESSION['iaah_accesstoken']);
+
+                if($accessToken != null){
+                    return true;
+                }
+            }
 
             //If there is no scenario name
             if(!isset($post['iaah_name']) || $post['iaah_name'] == ''){

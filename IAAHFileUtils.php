@@ -45,13 +45,7 @@
 
         static function getToken($key){
             $tokens = IAAHFileUtils::readTokens();
-
-            /*foreach($tokens as $token){
-                if($token->key == $key){
-                    return $token;
-                }
-            }*/
-
+            
             $arrayCount = count($tokens);
 
             for($i = 0; $i < $arrayCount; $i++){

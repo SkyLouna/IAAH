@@ -20,8 +20,8 @@
         }
 
         public function getFormData($token){
-            $a = rand(1,10);
-            $b = rand(1,10);
+            $a = rand(2,10);
+            $b = rand(2,10);
 
             $q = $token->getResult() / ($a * $b);
             return array('key'=>$token->getKey(), 'a'=> $a, 'b' => $b, 'q' => $q);
