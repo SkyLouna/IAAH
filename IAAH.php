@@ -1,5 +1,11 @@
 <?php
 
+    /**
+     * Author: Trana Valentin
+     * Description:
+     *              Main IAAH class
+     */
+
     require_once 'scenarios/DefaultScenario.php';
     require_once 'scenarios/FlappyBirdScenario.php';
 
@@ -11,38 +17,56 @@
 
     class IAAH {
 
-        protected $PRIVATEKEY = '190497501589';
+        protected static $enabledscenarios = null;      //List of enabled scenarios
 
-        protected static $enabledscenarios = null;
-
+        /**
+         * Gets the enabled scenarios
+         *
+         * @return array
+         */
         static function getEnabledScenarios(){
+
+            //If enabled scenarios not null, return it
             if(IAAH::$enabledscenarios != null){
                 return IAAH::$enabledscenarios;
             }
 
+            //Init the enabled scenarios
             IAAH::$enabledscenarios = array(
-                new DefaultScenario(),
-                //new FlappyBirdScenario()
+                new DefaultScenario(),          //x + y = z scenario
+                new FlappyBirdScenario()        //flappy bird with a cube scenario
             );
             
             return IAAH::$enabledscenarios;
         }
 
-
+        /**
+         * Picks up a random scenario from the scenario list
+         *
+         * @return IAAHScenario
+         */
         static function generateRandomScenario() : IAAHScenario {
+            //Get random index
             $randIndex = array_rand(IAAH::getEnabledScenarios());
             
+            //Get the scenario
             $scenario = IAAH::getEnabledScenarios()[$randIndex];
 
+            //Return the scenario
             return $scenario;
         }
 
         /**
          * Gets the scenario by name
+         * 
+         * @return IAAHSCenario
          */
         static function getScenario($name){
             
+            //Foreach scenario in scenario list
             foreach(IAAH::getEnabledScenarios() as $scenario){
+
+                //Check if have the same name
                 if($scenario->getName() == $name){
                     return $scenario;
                 }
@@ -51,11 +75,19 @@
             return null;
         }
 
+        /**
+         * Checks if user has passed the IAAH form
+         *
+         * @param array $post
+         * @return boolean
+         */
         static function checkUser($post) : bool {
 
+            //IF user has an access token
             if(isset($_SESSION['iaah_accesstoken']) && $_SESSION['iaah_accesstoken'] != ''){
                 $accessToken = IAAHFileUtils::getToken($_SESSION['iaah_accesstoken']);
 
+                //If token exists, user can pass
                 if($accessToken != null){
                     return true;
                 }
@@ -76,6 +108,7 @@
                 return false;
             }
 
+            //Get the scenario to check
             $scenario = IAAH::getScenario($post['iaah_name']);
             $data = unserialize($_POST['iaah_data']);
             $result = $_POST['iaah_result'];
@@ -84,12 +117,19 @@
         }
 
         
+        /**
+         * Generates a random token
+         * 
+         * @return IAAHToken
+         */
         static function generateRandomToken() : IAAHToken {
             $randomKey = rand(0, 100000);
             $randomResult = (rand(1,10) * ($randomKey*$randomKey)) / 100;
 
+            //Init the token
             $token = new IAAHToken(array('key'=>$randomKey, 'result'=>$randomResult));
 
+            //Save the token
             IAAHFileUtils::saveToken($token);
 
             return $token;

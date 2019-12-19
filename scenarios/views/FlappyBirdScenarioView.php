@@ -4,7 +4,7 @@
         // https://www.w3schools.com/graphics/tryit.asp?filename=trygame_score 
     ?>
 
-    <legend>Faites le plus grand score: </legend>
+    <legend id="iaah_game_legend">Faites le plus grand score: </legend>
     <p id="iaah_game">
         <button onclick="startGame(); document.getElementById('iaah_game_start').remove(); return false;" id="iaah_game_start">Start</button>
     </p>
@@ -109,6 +109,7 @@
                     myGameArea.stop();
                     document.getElementById('canvas').remove();
                     document.getElementById('iaah_game_instructions').innerHTML = '<p>Vous avez échoué. Veuillez réessayer: <button onclick="restartGame(); return false;">Restart</button></p>';
+                    document.getElementById('iaah_result').value  = myGameArea.frameNo;
                     return;
                 } 
             }
@@ -137,6 +138,11 @@
 
             if(myGameArea.frameNo > goal){
                 myGameArea.stop();
+                document.getElementById('iaah_game_legend').remove();
+                document.getElementById('canvas').remove();
+                document.getElementById('iaah_game_instructions').innerHTML = '<p>Vous avez réussi.</p>';
+                document.getElementById('iaah_result').value  = myGameArea.frameNo;
+                return;
             }
         }
 

@@ -32,7 +32,9 @@
                 return false;
             }
 
-            return false;
+            $dataGoal = $data['goal'];
+
+            return $dataGoal + 1 == $result;
         }
     }
 

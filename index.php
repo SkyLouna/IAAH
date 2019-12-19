@@ -30,7 +30,7 @@
             </p>
 
             <p>
-                <button type="submit" required>Submit my form</button>
+                <button type="submit" required>Submit the form</button>
             </p>
         </form>
     </body>
